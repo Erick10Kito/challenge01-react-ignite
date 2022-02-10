@@ -16,14 +16,32 @@ export function TaskList() {
 
   function handleCreateNewTask() {
     // Crie uma nova task com um id random, não permita criar caso o título seja vazio.
+    if (!newTaskTitle) return alert('poe a porra do titulo');
+
+    const newTask = {
+      id: Math.random(),
+      title: newTaskTitle,
+      isComplete: false
+    }
+    setTasks(oldstate => [...oldstate,newTask])
+    //esse oldstate foi usado para salvar os dados antigos que estavam la antes, e depois adicionar um novo utilizando o newTask
+    setNewTaskTitle('');
+    //resetei pro começo para que ele nao fique aparecendo na tela dps de eu ja ter enviado a atividade
+
   }
 
   function handleToggleTaskCompletion(id: number) {
     // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
+    
   }
 
   function handleRemoveTask(id: number) {
     // Remova uma task da listagem pelo ID
+    const filteredTasks = tasks.filter(task => task.id !== id);//esse ultimo id se refere ao id entre parenteses na função
+    //nesse const ele vai retornar todas as tasks que o id dela for diferente que o id que foi passado no handleRemoveTasks
+    //ou seja ele vai retornar somente as tasks que nao estiverem chamando o handleRemove
+    setTasks(filteredTasks)
+
   }
 
   return (
