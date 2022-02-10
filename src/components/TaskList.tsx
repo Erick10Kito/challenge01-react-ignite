@@ -27,20 +27,17 @@ export function TaskList() {
     //esse oldstate foi usado para salvar os dados antigos que estavam la antes, e depois adicionar um novo utilizando o newTask
     setNewTaskTitle('');
     //resetei pro começo para que ele nao fique aparecendo na tela dps de eu ja ter enviado a atividade
-
   }
 
   function handleToggleTaskCompletion(id: number) {
     // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
     const completedTask = tasks.map(task => task.id === id ? {
-      ...task,
-      isComplete: !task.isComplete
-      //pegamos todos os valores antigos da task,e  alteramos a propriedade 'isComplete'
-    } : task);
-    //se o task.id for diferente de id só retornamos a task
+      ...task, isComplete: true
+    } : task)
+
     setTasks(completedTask)
-    //setTasks é um estado , portanto quando mudei utilizando o completedTask ele troca a Task antiga pela task nova
   }
+
 
   function handleRemoveTask(id: number) {
     // Remova uma task da listagem pelo ID
@@ -61,6 +58,7 @@ export function TaskList() {
             type="text"
             placeholder="Adicionar novo todo"
             onChange={(e) => setNewTaskTitle(e.target.value)}
+            //onChange= sempre que mudar vai executar a função
             value={newTaskTitle}
           />
           <button type="submit" data-testid="add-task-button" onClick={handleCreateNewTask}>
@@ -82,7 +80,9 @@ export function TaskList() {
                     //task checada
                     onClick={() => handleToggleTaskCompletion(task.id)}
                   //quando clicar a função referida ira executar com o parametro task.id
+                  //na linha <div className={task.isComplete ? 'completed' : ''} data-testid="task" > significa que se task for isComolete a classe vai se chamar completed
                   />
+
                   <span className="checkmark"></span>
                 </label>
                 <p>{task.title}</p>
