@@ -23,7 +23,7 @@ export function TaskList() {
       title: newTaskTitle,
       isComplete: false
     }
-    setTasks(oldstate => [...oldstate,newTask])
+    setTasks(oldstate => [...oldstate, newTask])
     //esse oldstate foi usado para salvar os dados antigos que estavam la antes, e depois adicionar um novo utilizando o newTask
     setNewTaskTitle('');
     //resetei pro começo para que ele nao fique aparecendo na tela dps de eu ja ter enviado a atividade
@@ -32,7 +32,14 @@ export function TaskList() {
 
   function handleToggleTaskCompletion(id: number) {
     // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
-    
+    const completedTask = tasks.map(task => task.id === id ? {
+      ...task,
+      isComplete: !task.isComplete
+      //pegamos todos os valores antigos da task,e  alteramos a propriedade 'isComplete'
+    } : task);
+    //se o task.id for diferente de id só retornamos a task
+    setTasks(completedTask)
+    //setTasks é um estado , portanto quando mudei utilizando o completedTask ele troca a Task antiga pela task nova
   }
 
   function handleRemoveTask(id: number) {
@@ -50,14 +57,14 @@ export function TaskList() {
         <h2>Minhas tasks</h2>
 
         <div className="input-group">
-          <input 
-            type="text" 
-            placeholder="Adicionar novo todo" 
+          <input
+            type="text"
+            placeholder="Adicionar novo todo"
             onChange={(e) => setNewTaskTitle(e.target.value)}
             value={newTaskTitle}
           />
           <button type="submit" data-testid="add-task-button" onClick={handleCreateNewTask}>
-            <FiCheckSquare size={16} color="#fff"/>
+            <FiCheckSquare size={16} color="#fff" />
           </button>
         </div>
       </header>
@@ -68,11 +75,13 @@ export function TaskList() {
             <li key={task.id}>
               <div className={task.isComplete ? 'completed' : ''} data-testid="task" >
                 <label className="checkbox-container">
-                  <input 
+                  <input
                     type="checkbox"
                     readOnly
                     checked={task.isComplete}
+                    //task checada
                     onClick={() => handleToggleTaskCompletion(task.id)}
+                  //quando clicar a função referida ira executar com o parametro task.id
                   />
                   <span className="checkmark"></span>
                 </label>
@@ -80,11 +89,11 @@ export function TaskList() {
               </div>
 
               <button type="button" data-testid="remove-task-button" onClick={() => handleRemoveTask(task.id)}>
-                <FiTrash size={16}/>
+                <FiTrash size={16} />
               </button>
             </li>
           ))}
-          
+
         </ul>
       </main>
     </section>
